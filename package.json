@@ -1,6 +1,6 @@
 {
   "name": "@hritikwork.npm/favicon-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate favicon assets, head snippets, and runtime favicon injection helpers.",
   "keywords": [
     "favicon",
@@ -58,4 +58,3 @@
     "sharp": "^0.33.5"
   }
 }
-
