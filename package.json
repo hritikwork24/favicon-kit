@@ -1,5 +1,5 @@
 {
-  "name": "@hritikwork24/favicon-kit",
+  "name": "@hritikwork.npm/favicon-kit",
   "version": "0.1.0",
   "description": "Generate favicon assets, head snippets, and runtime favicon injection helpers.",
   "keywords": [
@@ -26,9 +26,7 @@
   "homepage": "https://github.com/hritikwork24/favicon-kit#readme",
   "type": "module",
   "sideEffects": false,
-  "bin": {
-    "favicon-kit": "./src/cli.js"
-  },
+  "bin": "./src/cli.js",
   "exports": {
     ".": "./src/index.js",
     "./node": "./src/node.js",
@@ -60,3 +58,4 @@
     "sharp": "^0.33.5"
   }
 }
+

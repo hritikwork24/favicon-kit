@@ -8,9 +8,10 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ### Added
 
-- Initial public package scaffold for `@hritikwork24/favicon-kit`
+- Initial public package scaffold for `@hritikwork.npm/favicon-kit`
 - Node API for favicon generation and HTML injection
 - Browser API for runtime favicon tag management
 - HTML, Laravel, and Hugo snippet adapters
 - CLI commands for `generate`, `snippet`, and `inject`
 - GitHub Actions workflows for CI and npm publishing
+

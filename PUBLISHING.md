@@ -1,4 +1,4 @@
-# Publishing @hritikwork24/favicon-kit
+# Publishing @hritikwork.npm/favicon-kit
 
 ## 1. Create the GitHub repo
 
@@ -65,3 +65,4 @@ npm publish --access public
 ```
 
 Use `minor` or `major` instead of `patch` when needed.
+

@@ -1,4 +1,4 @@
-# @hritikwork24/favicon-kit
+# @hritikwork.npm/favicon-kit
 
 A publish-ready favicon package for generating favicon assets, writing framework-specific head snippets, and injecting favicon tags at runtime.
 
@@ -12,7 +12,7 @@ A publish-ready favicon package for generating favicon assets, writing framework
 ## Install
 
 ```bash
-npm install @hritikwork24/favicon-kit
+npm install @hritikwork.npm/favicon-kit
 ```
 
 ## CLI
@@ -62,7 +62,7 @@ This creates or updates a managed block:
 ## Node API
 
 ```js
-import { generateFavicons, injectFaviconsIntoFile } from "@hritikwork24/favicon-kit/node";
+import { generateFavicons, injectFaviconsIntoFile } from "@hritikwork.npm/favicon-kit/node";
 
 await generateFavicons({
   input: "./logo.png",
@@ -81,7 +81,7 @@ await injectFaviconsIntoFile({
 ## Browser API
 
 ```js
-import { applyFaviconTags, applySingleFavicon } from "@hritikwork24/favicon-kit/browser";
+import { applyFaviconTags, applySingleFavicon } from "@hritikwork.npm/favicon-kit/browser";
 
 applyFaviconTags({
   basePath: "/images/favicons",
@@ -98,9 +98,9 @@ Use the browser helper when you only want runtime head injection. Use the Node A
 ## Adapters
 
 ```js
-import { buildHtmlSnippet } from "@hritikwork24/favicon-kit/adapters/html";
-import { buildLaravelBladeSnippet } from "@hritikwork24/favicon-kit/adapters/laravel";
-import { buildHugoSnippet } from "@hritikwork24/favicon-kit/adapters/hugo";
+import { buildHtmlSnippet } from "@hritikwork.npm/favicon-kit/adapters/html";
+import { buildLaravelBladeSnippet } from "@hritikwork.npm/favicon-kit/adapters/laravel";
+import { buildHugoSnippet } from "@hritikwork.npm/favicon-kit/adapters/hugo";
 ```
 
 ## Default generated files
@@ -134,3 +134,4 @@ If you publish under a different repo name, update the `repository`, `bugs`, and
 ```bash
 npm test
 ```
+
