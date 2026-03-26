@@ -1,13 +1,15 @@
 # @hritikwork.npm/favicon-kit
 
-A publish-ready favicon package for generating favicon assets, writing framework-specific head snippets, and injecting favicon tags at runtime.
+A reusable favicon package for generating favicon assets, creating framework-friendly favicon structure, and safely wiring favicon tags into a project.
 
-## Features
+## What this package does
 
-- Generate PNG favicons plus a real `favicon.ico`
-- Produce ready-to-use snippets for `html`, `laravel`, and `hugo`
-- Inject a managed favicon block into an existing `<head>`
-- Use a browser helper when you only want runtime head injection
+- Generates a standard favicon set from one logo or icon image
+- Creates a real `favicon.ico`
+- Detects `html`, `laravel`, and `hugo` projects
+- Creates proper favicon structure for those projects
+- Produces snippets for `html`, `laravel`, and `hugo`
+- Injects managed favicon blocks into project head files safely
 
 ## Install
 
@@ -15,7 +17,87 @@ A publish-ready favicon package for generating favicon assets, writing framework
 npm install @hritikwork.npm/favicon-kit
 ```
 
-## CLI
+Node 18 or newer is required.
+
+## Recommended command: init
+
+Use `init` when a project does not already have favicon structure and you want the package to set it up for you.
+
+### Simple HTML
+
+```bash
+npx favicon-kit init --framework html --input ./logo.png --file ./index.html
+```
+
+### Laravel
+
+```bash
+npx favicon-kit init --framework laravel --input ./public/images/logo.png
+```
+
+### Hugo
+
+```bash
+npx favicon-kit init --framework hugo --input ./static/images/logo.png
+```
+
+What `init` does:
+
+- detects the project type if you do not pass `--framework`
+- finds or uses the input image
+- creates the favicon output folder
+- generates the favicon files
+- writes the correct snippet/partial structure
+- injects a managed include or head block when possible
+- writes `.favicon-kit.json`
+
+## Quick start without init
+
+### 1. Generate favicon files
+
+```bash
+npx favicon-kit generate \
+  --input ./logo.png \
+  --out ./public/images/favicons \
+  --base-path /images/favicons
+```
+
+### 2. Add the favicon tags to your project
+
+For plain HTML:
+
+```bash
+npx favicon-kit inject \
+  --framework html \
+  --file ./public/index.html \
+  --base-path /images/favicons
+```
+
+For Laravel:
+
+```bash
+npx favicon-kit snippet \
+  --framework laravel \
+  --base-path images/favicons \
+  --out ./resources/views/partials/favicon.blade.php
+```
+
+For Hugo:
+
+```bash
+npx favicon-kit snippet \
+  --framework hugo \
+  --base-path images/favicons \
+  --out ./layouts/partials/favicon.html
+```
+
+## CLI usage
+
+### Initialize a project
+
+```bash
+npx favicon-kit init --framework laravel --input ./public/images/logo.png
+```
 
 ### Generate favicon assets
 
@@ -36,12 +118,6 @@ npx favicon-kit snippet \
   --out ./resources/views/partials/favicon.blade.php
 ```
 
-Supported frameworks:
-
-- `html`
-- `laravel`
-- `hugo`
-
 ### Inject into an existing head file
 
 ```bash
@@ -51,24 +127,34 @@ npx favicon-kit inject \
   --base-path /images/favicons
 ```
 
-This creates or updates a managed block:
+Supported frameworks:
+
+- `html`
+- `laravel`
+- `hugo`
+
+Managed blocks use markers like:
 
 ```html
 <!-- favicon-kit:start -->
-...
 <!-- favicon-kit:end -->
 ```
 
 ## Node API
 
 ```js
-import { generateFavicons, injectFaviconsIntoFile } from "@hritikwork.npm/favicon-kit/node";
+import { generateFavicons, initFaviconProject, injectFaviconsIntoFile } from "@hritikwork.npm/favicon-kit/node";
+
+await initFaviconProject({
+  framework: "html",
+  input: "./logo.png",
+  file: "./index.html"
+});
 
 await generateFavicons({
   input: "./logo.png",
   outputDir: "./public/images/favicons",
-  basePath: "/images/favicons",
-  htmlOutputFile: "favicon-head.html"
+  basePath: "/images/favicons"
 });
 
 await injectFaviconsIntoFile({
@@ -79,6 +165,8 @@ await injectFaviconsIntoFile({
 ```
 
 ## Browser API
+
+Use this when you only want runtime favicon updates in the browser.
 
 ```js
 import { applyFaviconTags, applySingleFavicon } from "@hritikwork.npm/favicon-kit/browser";
@@ -93,9 +181,7 @@ applySingleFavicon({
 });
 ```
 
-Use the browser helper when you only want runtime head injection. Use the Node API or CLI when you want actual files generated in a project.
-
-## Adapters
+## Adapter imports
 
 ```js
 import { buildHtmlSnippet } from "@hritikwork.npm/favicon-kit/adapters/html";
@@ -103,35 +189,22 @@ import { buildLaravelBladeSnippet } from "@hritikwork.npm/favicon-kit/adapters/l
 import { buildHugoSnippet } from "@hritikwork.npm/favicon-kit/adapters/hugo";
 ```
 
-## Default generated files
+## Verification
 
-- `favicon-16x16.png`
-- `favicon-32x32.png`
-- `favicon-48x48.png`
-- `favicon-64x64.png`
-- `favicon-96x96.png`
-- `favicon-128x128.png`
-- `apple-touch-icon-152x152.png`
-- `apple-touch-icon-167x167.png`
-- `apple-touch-icon-180x180.png`
-- `android-chrome-192x192.png`
-- `android-chrome-512x512.png`
-- `favicon.ico`
+Check the CLI:
 
-## Publish checklist
+```bash
+npx favicon-kit help
+```
 
-1. Create a dedicated GitHub repo, preferably `https://github.com/hritikwork24/favicon-kit`.
-2. Push the contents of `packages/favicon-kit` there.
-3. Run `npm login`.
-4. Run `npm test`.
-5. Run `npm run pack:check`.
-6. Publish with `npm publish --access public`.
+Verify the published package version:
 
-If you publish under a different repo name, update the `repository`, `bugs`, and `homepage` fields in `package.json` first.
+```bash
+npm view @hritikwork.npm/favicon-kit version
+```
 
 ## Testing
 
 ```bash
 npm test
 ```
-

@@ -4,6 +4,7 @@ import path from "node:path";
 import process from "node:process";
 import {
   generateFavicons,
+  initFaviconProject,
   injectFaviconsIntoFile,
   writeFaviconSnippet
 } from "./node.js";
@@ -47,11 +48,14 @@ function printHelp() {
   console.log(`favicon-kit
 
 Commands:
+  init [--framework html|laravel|hugo] [--input <file>] [--file <head-file>]
   generate --input <file> --out <dir> [--base-path /images/favicons] [--html favicon-head.html]
   snippet --out <file> [--framework html|laravel|hugo] [--base-path /images/favicons]
   inject --file <head-file> [--framework html|laravel|hugo] [--base-path /images/favicons]
 
 Examples:
+  favicon-kit init --framework laravel --input ./public/images/logo.png
+  favicon-kit init --framework html --input ./logo.png --file ./index.html
   favicon-kit generate --input ./logo.png --out ./public/images/favicons --base-path /images/favicons
   favicon-kit snippet --framework laravel --out ./storage/app/favicon-head.blade.php --base-path images/favicons
   favicon-kit inject --framework html --file ./public/index.html --base-path /images/favicons
@@ -65,6 +69,45 @@ async function run() {
 
   if (command === "help" || command === "--help" || command === "-h") {
     printHelp();
+    return;
+  }
+
+  if (command === "init") {
+    const result = await initFaviconProject({
+      projectDir: cwd,
+      framework: args.framework,
+      input: args.input,
+      file: args.file,
+      outputDir: args.out,
+      basePath: args.basePath || "/images/favicons",
+      snippetFile: args.snippetFile,
+      configFile: args.configFile,
+      fit: args.fit || "contain",
+      background: args.background || "transparent",
+      includeManifest: args.manifest !== false,
+      manifestFile: args.manifestFile || "site.webmanifest",
+      manifestPath: args.manifestPath,
+      marker: args.marker,
+      appName: args.appName || "Website",
+      themeColor: args.themeColor || "#ffffff",
+      backgroundColor: args.backgroundColor || args.themeColor || "#ffffff"
+    });
+
+    console.log(`Initialized favicon structure for ${result.framework}.`);
+    console.log(`Input: ${result.input}`);
+    console.log(`Output directory: ${result.outputDir}`);
+    if (result.snippetFile) {
+      console.log(`Snippet file: ${result.snippetFile}`);
+    }
+    if (result.headTarget) {
+      console.log(`Updated head target: ${result.headTarget}`);
+    }
+    if (result.configFile) {
+      console.log(`Config file: ${result.configFile}`);
+    }
+    if (result.warnings.length > 0) {
+      result.warnings.forEach((warning) => console.log(`Warning: ${warning}`));
+    }
     return;
   }
 
